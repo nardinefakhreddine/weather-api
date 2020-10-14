@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Search from "./components/Search";
 
+
 import SayHi, { SayHello } from "./components/WeatherItem";
 import fakeWeatherData from "./fakeWeatherData.json";
 
@@ -10,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Karim"
+      name: "Nardine"
     };
   }
 
