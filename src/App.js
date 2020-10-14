@@ -30,8 +30,8 @@ class App extends Component {
   };
 
   render() {
-    var  data = fakeWeatherData.list.slice(5,12).map(obj => {
-      return obj
+    var  data = fakeWeatherData.list.slice(5,12).map(item => {
+      return item
   })
     return (
       <div className="app">
