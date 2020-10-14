@@ -1,11 +1,21 @@
 import React, { Component } from "react";
 import Search from "./components/Search";
-
-
-import SayHi, { SayHello } from "./components/WeatherItem";
+import HoursWeather from "./components/24HoursWeather";
+import WeatherNow from "./components/WeatherItem";
 import fakeWeatherData from "./fakeWeatherData.json";
 
 import "./App.css";
+import clear from "./img/weather-icons/clear.svg";
+import cloudy from "./img/weather-icons/cloudy.svg";
+import drizzle from "./img/weather-icons/drizzle.svg";
+import fog from "./img/weather-icons/fog.svg";
+import mostlycloudy from "./img/weather-icons/mostlycloudy.svg";
+import partlycloudy from "./img/weather-icons/partlycloudy.svg";
+import rain from "./img/weather-icons/rain.svg";
+import snow from "./img/weather-icons/snow.svg";
+import storm from "./img/weather-icons/storm.svg";
+import unknown from "./img/weather-icons/unknown.svg";
+import api_data from "./fakeWeatherData.json";
 
 class App extends Component {
   constructor(props) {
@@ -20,11 +30,14 @@ class App extends Component {
   };
 
   render() {
+    var  data = fakeWeatherData.list.slice(5,12).map(obj => {
+      return obj
+  })
     return (
       <div className="app">
-        <SayHi />
-        <SayHello color="black" name={this.state.name} />
-        <Search handleInput={this.handleInputChange} />
+        <Search className="header" handleInput={this.handleInputChange} />
+            <WeatherNow data={data}/>
+            <HoursWeather data={data}/>
       </div>
     );
   }
