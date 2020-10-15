@@ -10,6 +10,7 @@ class Search extends React.Component {
   render() {
     return (
       <div className="header" >
+        <form onSubmit={this.props.load_weather}>
         <input
           type="text"
           id="input-name"
@@ -24,6 +25,7 @@ class Search extends React.Component {
         >
           FIND WEATHER
         </button>
+        </form>
       </div>
     );
   }

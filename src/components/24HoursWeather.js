@@ -5,8 +5,8 @@ import fakeWeatherData from "../fakeWeatherData.json";
 import { render } from "react-dom";
 import "./../App.css";
  
-
-export class HoursWeather extends Component {
+class HoursWeather extends Component {
+  
   render() {
     let data=this.props.data;
     return (
