@@ -10,10 +10,11 @@ class Search extends React.Component {
   render() {
     return (
       <div className="header" >
-        <form onSubmit={this.props.load_weather}>
+        <form onSubmit={this.props.getData}>
         <input
           type="text"
           id="input-name"
+          name="city"
           onChange={event => {
             this.setState({ input: event.target.value });
           }}

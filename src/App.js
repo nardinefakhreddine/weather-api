@@ -15,7 +15,8 @@ import rain from "./img/weather-icons/rain.svg";
 import snow from "./img/weather-icons/snow.svg";
 import storm from "./img/weather-icons/storm.svg";
 import unknown from "./img/weather-icons/unknown.svg";
-import api_data from "./fakeWeatherData.json";
+import Error from './components/error.js'
+
 const api_key="9dfe3fec4bb0d7bf9b062d31dc3022b3";
 class App extends Component {
   constructor(props) {
@@ -25,36 +26,69 @@ class App extends Component {
     };
   }
   state={
-    temperature:"",
-    city:"",
-    humidity:"",
-    pressure:"",
-    icon:"",
-    description:"",
-    error:""
+    city:'London',
+    icon:'',
+    humidity:'',
+    pressure:'',
+    temp:0,
+    temp_min:0,
+    temp_max:0,
+    description:'',
+    status:false,
+    error:false
+
+
 
   }
-  getweather= async (e)=>{
-    const city =e.target.elements.value;
+
+  getData= async (e)=>{
     e.preventDefault();
-    const api_call= await fetch('api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${api_key}');
-    const response=await api_call.json();
-    if(city){
-      this.setState({
-        temperature:response.main.temp,
-        city:response.name,
-        humidity:response.main.humidity,
-        icon:response.weather[0].icon,
-        description:response.weather[0].description,
-        error:""
+  
+    const city=e.target.elements.city.value;
+    
+  const response= await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}`);//return promis
+   //we must to use await beacuse return a promise
+  const data=await response.json();
+  console.log(data);
+  if(response.status == 200){
+ this.setState({
+   city:city,
+  temp:Math.floor(data.list[1].main.temp-273.15),
+  temp_min:Math.floor(data.list[1].main.temp_min-273.15),
+  temp_max:Math.floor(data.list[1].main.temp_max-273.15),
+  pressure:Math.floor(data.list[1].main.pressure-273.15),
+  humidity:Math.floor(data.list[1].main.humidity-273.15),
+  description:data.list[0].weather[0].description,
+  status:true,
+  error:false
+ 
+   
 
-      })
-    }else{
-      this.setState({
-        error:"please fill out input fields..."
-      })
-    }
+ })
+
+  
+}
+  else{
+  this.setState({error:true})
   }
+  }
+  getIcon(id){
+    if(id <= 300){
+      return storm
+    }if (id > 300 && id <= 499){
+      return drizzle;
+    }if(id >= 500 && id <= 599){
+      return rain
+    }if(id >= 600 && id <= 699){
+      return snow
+    }if(id == 800){
+      return clear
+    }if(id <= 801 && id <= 805){
+      return mostlycloudy
+    }
+
+  }
+  
 
   handleInputChange = value => {
     this.setState({ name: value });
@@ -66,17 +100,12 @@ class App extends Component {
   })
     return (
       <div className="app">
-        <Search className="header" handleInput={this.handleInputChange} load_weather={this.getweather} />
-            <WeatherNow data={data} />
+        <Search className="header" handleInput={this.handleInputChange} getData={this.getData}/>
+        {this.state.error?<Error />:''}
+            <WeatherNow data={data} getIcon={this.getIcon} api={this.state}/>
             <HoursWeather data={data} 
-            city={this.state.city}
-            temperature={this.state.temperature}
-            humidity={this.state.humidity}
-            pressure={this.state.pressure}
-            icon={this.state.icon}
-            description={this.state.description}
-            error={this.state.error}
-
+          
+            getIcon={this.getIcon}
             />
       </div>
     );

@@ -15,12 +15,14 @@ class HoursWeather extends Component {
         {data.map((item, key)=> 
           <li  key={key} className="threeAM">
             <time>{new Date(item.dt_txt).getHours().toString().padStart(2, '0')+":00"}</time>
-            <img  src={mostlycloudy} alt="mostlycloudy icon" />
-            <p>{Math.round(item.main.temp)}&#176;C</p>
+            <img  src={this.props.getIcon(item.weather[0].id)}  alt="weather icon" />
+            <p>{Math.round(item.main.temp)}&#176;C    </p>
           </li>
          )}
-            
+          
         </ul>
+     
+   
     </section>
     );
   }
